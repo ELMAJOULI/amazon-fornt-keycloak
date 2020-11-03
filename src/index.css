@@ -149,7 +149,9 @@
  /****************  checkout *******************/
  .checkout{
    display: flex;
- }.checkout__items{
+   flex-wrap: wrap;
+ }
+ .checkout__items{
    flex: 0.8;
  }
  .checkout__img{
@@ -179,13 +181,14 @@
   }
   /************* subtotal **********************/
 .subtotal{
-  flex: 0.2;
+  flex: 0.3;
   background-color: #F0F2F2;
   border: 1px #D5D9D9 solid;
   border-radius: 5px;
   box-shadow: 4px 4px 2px #D5D9D9;
   padding: 1rem;
   width: 100%;
+  min-width: 260px;
   height: 180px;
   display: flex;
   flex-direction: column;
