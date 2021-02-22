@@ -285,3 +285,19 @@ padding: 0 5px;
   border-radius: 5px;
   background-color:linear-gradient(to bottom,#f7f8fa,#e7e9ec); ;
 }
+.product__quantity{
+  display: flex;
+  width: 30%;
+  align-items: baseline;
+  justify-content: center;
+  margin: 0 10px;
+}
+.btn__qt{
+  padding: 0 7px;
+  text-align: center;
+}
+.product__quantity input{
+  padding: 2px;
+  text-align: center;
+  width: 50px;
+}

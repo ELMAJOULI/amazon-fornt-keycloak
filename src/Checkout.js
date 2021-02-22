@@ -3,7 +3,7 @@ import  {useStateValue} from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
 const Checkout = props => {
-    const [{basket},dispatch] = useStateValue();
+    const [{user,basket},dispatch] = useStateValue();
     return(
         <div className="checkout">
             <div className="checkout__items">
@@ -21,7 +21,7 @@ const Checkout = props => {
             
             {
                 basket.map(element => 
-                    <CheckoutProduct {...element} key={element.id} />
+                    <CheckoutProduct {...element} key={element.id +  Math.random()} />
                 )
             }
             

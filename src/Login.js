@@ -1,25 +1,65 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
-import { auth } from './firebase';
+import axios from 'axios';
+import JWTdecode from 'jwt-decode';
+import { useStateValue } from './StateProvider';
 
 
 const Login = () => {
+    const [{},dispatch] = useStateValue();
     const [user,setUser] = useState("");
     const [password,setPassword] = useState("");
     const history = useHistory();
-    const login = e => {
+    const login = async(e) => {
         e.preventDefault();
-        auth.signInWithEmailAndPassword(user,password).then(auth => {
+        try {
+        const {data} = await axios.post("http://localhost:8080/auth/realms/ecom-realm/protocol/openid-connect/token",
+           {
+            username:user,
+            password,
+            client_id:"react-front",
+            grant_type:["password"]
+           },
+           {
+               headers: {"Access-Control-Allow-Origin":"*"}
+           }
+           )
+           localStorage.setItem("access_token",data.access_token);
+           localStorage.setItem("refresh_token",data.refresh_token);
+           dispatch({type:'SET_USER',payload:JWTdecode(data.access_token)})
             history.push("/");
-        }).catch(e => {
-            alert(e);
-        });
+        } catch (err) {
+            console.log(err)
+            alert(err.error_description);
+        }
     }
-    const register = e => {
+    const register = async(e) => {
         e.preventDefault();
-        auth.createUserWithEmailAndPassword(user,password).then(auth => {
+        try {
+            const {data} = await axios.post("http://localhost:8080/auth/admin/realms/amazon/users",
+               {
+                username:user,
+                enabled:true,
+                email:user,
+                credentials:{
+                    type:"password",
+                    value:password,
+                    temporary:false
+                }
+               },
+               {
+                   headers: {"Access-Control-Allow-Origin":"*"}
+               }
+               )
+               localStorage.setItem("access_token",data.access_token);
+               localStorage.setItem("refresh_token",data.refresh_token);
+               dispatch({type:'SET_USER',payload:JWTdecode(data.access_token)})
                 history.push("/");
-            }).catch(e => alert(e.message));
+            } catch (err) {
+                console.log(err)
+                alert(err.error_description);
+            }
+      
     }
     return (
         <div className="login">

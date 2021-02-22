@@ -13,7 +13,8 @@ const Product = props => {
                     title,
                     price,
                     rating,
-                    image
+                    image,
+                    quantity: 1
                 }
             }
         )
@@ -29,7 +30,7 @@ const Product = props => {
                  <div className="product__rating">
                  {
                      Array(rating).fill()
-                             .map(_ => <p>⭐</p>)
+                             .map(_ => <p key={Math.random()}>⭐</p>)
                  }
                  </div>
                  
